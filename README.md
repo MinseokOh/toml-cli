@@ -15,14 +15,15 @@
 </a>  
 </p>
 This is the home of the toml command, a simple CLI for editing and querying TOML files.
-Idea from [gnprince/toml-cli](https://github.com/gnprice/toml-cli) and written in golang.
+
+Idea from [gnprince/toml-cli](https://github.com/gnprice/toml-cli), written in golang. and depends on [pelletier/go-toml](https://github.com/pelletier/go-toml).
 
 The intent of the toml command is to be useful
 - in shell scripts, for consulting or editing a config file
 - and in instructions a human can follow for editing a config file, as a command to copy-paste and run.
 
 
-# Usage
+## Usage
 
 ### `Get`
 ```shell
@@ -36,7 +37,7 @@ $ toml-cli set ./sample/example.toml owner.name MinseokOh
 # modify owner.name to MinseokOh
 ```
 
-# Contributors
+## Contributors
 
 <a href="https://github.com/MinseokOh/toml-cli/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=MinseokOh/toml-cli" />
