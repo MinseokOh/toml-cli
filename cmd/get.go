@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// GetTomlCommand returns get command
 func GetTomlCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "get [path] [query]",
