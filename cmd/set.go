@@ -10,23 +10,27 @@ import (
 )
 
 const (
-	flagData = "v"
+	flagOut = "out"
 )
 
 // SetTomlCommand returns set command
 func SetTomlCommand() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "set [path] [query]",
+		Use:   "set [path] [query] [data]",
 		Short: "Edit the file to set some data",
 		Long: `
 e.g.
 toml-cli set ./sample/example.toml title 123456
+
+e.g.
+toml-cli set ./sample/example.toml title 123456 --out=./sample/example_out.toml
 `,
 		Args: cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			path := args[0]
 			query := args[1]
 			data := parseInput(args[2])
+			outDir, _ := cmd.Flags().GetString(flagOut)
 
 			if data == nil {
 				return fmt.Errorf("data is nill")
@@ -36,6 +40,8 @@ toml-cli set ./sample/example.toml title 123456
 			if err != nil {
 				return err
 			}
+
+			toml.Dest(outDir)
 
 			if err := toml.Set(query, data); err != nil {
 				return err
@@ -49,6 +55,7 @@ toml-cli set ./sample/example.toml title 123456
 		},
 	}
 
+	cmd.Flags().StringP(flagOut, "o", "asdf", "set output directory")
 	return cmd
 }
 
