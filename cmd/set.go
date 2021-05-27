@@ -23,25 +23,29 @@ e.g.
 toml-cli set ./sample/example.toml title 123456
 
 e.g.
-toml-cli set ./sample/example.toml title 123456 --out=./sample/example_out.toml
+toml-cli set ./sample/example.toml title 123456 -o ./sample/example_out.toml
 `,
 		Args: cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			path := args[0]
 			query := args[1]
 			data := parseInput(args[2])
-			outDir, _ := cmd.Flags().GetString(flagOut)
-
 			if data == nil {
-				return fmt.Errorf("data is nill")
+				return fmt.Errorf("data is nil")
 			}
+
+			outDir, err := cmd.Flags().GetString(flagOut)
+			if err != nil {
+				return err
+			}
+
 
 			toml, err := toml.NewToml(path)
 			if err != nil {
 				return err
 			}
 
-			toml.Dest(outDir)
+			toml.Out(outDir)
 
 			if err := toml.Set(query, data); err != nil {
 				return err
@@ -55,7 +59,7 @@ toml-cli set ./sample/example.toml title 123456 --out=./sample/example_out.toml
 		},
 	}
 
-	cmd.Flags().StringP(flagOut, "o", "asdf", "set output directory")
+	cmd.Flags().StringP(flagOut, "o", "", "set output directory")
 	return cmd
 }
 

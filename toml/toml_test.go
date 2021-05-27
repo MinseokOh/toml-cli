@@ -41,7 +41,7 @@ func TestSet(t *testing.T) {
 	require.Nil(t, err)
 	require.NotNil(t, toml)
 
-	toml.Dest("../sample/example_out.toml")
+	toml.Out("../sample/example_out.toml")
 
 	query := "title"
 	value := "my output"

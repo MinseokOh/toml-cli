@@ -9,10 +9,9 @@ import (
 // Toml is a struct
 type Toml struct {
 	path string
-	dest string
+	out string
 
 	raw    []byte
-	tokens []token
 
 	tree *lib.Tree
 }
@@ -39,7 +38,6 @@ func NewToml(path string) (Toml, error) {
 func (t *Toml) load() error {
 	var err error
 
-	t.tokens = lexToml(t.raw)
 	t.tree, err = lib.LoadBytes(t.raw)
 
 	if err != nil {
@@ -50,8 +48,8 @@ func (t *Toml) load() error {
 }
 
 // Dest set output given path
-func (t *Toml) Dest(path string) {
-	t.dest = path
+func (t *Toml) Out(path string) {
+	t.out = path
 }
 
 // Get the value at key in the Tree.
