@@ -29,7 +29,7 @@ TOML Example
 
 			res := toml.Get(query)
 			if res == nil {
-				return fmt.Errorf("Not exist data")
+				return fmt.Errorf("Key %v does not exist in %v", query, path)
 			}
 
 			fmt.Println(res)
