@@ -1,9 +1,7 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
-
 	"github.com/spf13/cobra"
 )
 
@@ -14,6 +12,7 @@ func GetRootCommand() *cobra.Command {
 	rootCmd := &cobra.Command{
 		Use:   "toml-cli",
 		Short: "toml-cli",
+		SilenceUsage: true,
 		Long: `A simple CLI for editing and querying TOML files.
 	`,
 	}
@@ -29,7 +28,6 @@ func init() {
 // Execute commands
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 }
