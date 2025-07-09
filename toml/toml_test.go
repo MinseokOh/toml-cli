@@ -11,20 +11,20 @@ func TestNewToml(t *testing.T) {
 	_, err := NewToml("./config.toml")
 	require.NotNil(t, err)
 
-	toml, err := NewToml("../sample/get-set/config.toml")
+	toml, err := NewToml("../sample/get-set/app.toml")
 	require.Nil(t, err)
 	require.NotNil(t, toml)
 }
 
 func TestGet(t *testing.T) {
-	toml, err := NewToml("../sample/get-set/config.toml")
+	toml, err := NewToml("../sample/get-set/app.toml")
 	require.Nil(t, err)
 	require.NotNil(t, toml)
 
 	query := "app.name"
 	appName := toml.Get(query)
 
-	require.Equal(t, appName, "toml-cli-demo")
+	require.Equal(t, appName, "demo-app")
 
 	query = "server.port"
 	port := toml.Get(query)
@@ -37,11 +37,11 @@ func TestGet(t *testing.T) {
 }
 
 func TestSet(t *testing.T) {
-	toml, err := NewToml("../sample/get-set/config.toml")
+	toml, err := NewToml("../sample/get-set/app.toml")
 	require.Nil(t, err)
 	require.NotNil(t, toml)
 
-	toml.Out("../sample/get-set/config_test_output.toml")
+	toml.Out("../sample/get-set/app_test_output.toml")
 
 	query := "app.name"
 	value := "test-app"
