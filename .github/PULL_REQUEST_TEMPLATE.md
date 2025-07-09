@@ -3,18 +3,13 @@
 ## 📋 Summary
 <!-- Brief description of what this PR accomplishes -->
 
-## 🏷️ Commit Type Prefix
-Use conventional commit prefixes in your commit messages:
-- `feat:` - New feature
-- `fix:` - Bug fix
-- `docs:` - Documentation changes
-- `style:` - Code style changes (formatting, etc.)
-- `refactor:` - Code refactoring
-- `perf:` - Performance improvements
-- `test:` - Adding or updating tests
-- `chore:` - Maintenance tasks, dependency updates
-- `ci:` - CI/CD changes
-- `build:` - Build system changes
+## 🏷️ Commit & Branch Convention
+**Branch naming**: `type/description` (e.g., `feat/add-json-export`, `fix/handle-empty-files`)
+**Commit messages**: `type: description` (e.g., `feat: add JSON export functionality`)
+
+See [Branch Strategy](.github/BRANCH_STRATEGY.md) for detailed guidelines.
+
+**Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `ci`, `build`
 
 ## 🔧 Type of Change
 - [ ] Bug fix (non-breaking change which fixes an issue)
