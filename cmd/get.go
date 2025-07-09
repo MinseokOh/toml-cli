@@ -19,17 +19,14 @@ TOML Example
 `,
 		Args: cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			path := args[0]
-			query := args[1]
-
-			toml, err := toml.NewToml(path)
+			toml, err := toml.NewToml(args[0])
 			if err != nil {
 				return err
 			}
 
-			res := toml.Get(query)
+			res := toml.Get(args[1])
 			if res == nil {
-				return fmt.Errorf("Key %v does not exist in %v", query, path)
+				return fmt.Errorf("Key %v does not exist in %v", args[1], args[0])
 			}
 
 			fmt.Println(res)

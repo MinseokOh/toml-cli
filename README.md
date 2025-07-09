@@ -1,6 +1,7 @@
 <p align="center">
   <h2 align="center">toml-cli</h2>
   <p align="center">A simple CLI for editing and querying TOML files.</p>
+  <p align="center">✨ <strong>Enhanced with Claude Code</strong> ✨</p>
 </p>
 
 <p align="center">
@@ -36,6 +37,10 @@ $ toml-cli get ./sample/example.toml owner.dob
 $ toml-cli set ./sample/example.toml owner.name MinseokOh
 # modify owner.name to MinseokOh
 ```
+
+## Development
+
+This project is actively developed with [Claude Code](https://claude.ai/code) for enhanced productivity and code quality. The codebase includes comprehensive documentation in `CLAUDE.md` to facilitate AI-assisted development.
 
 ## Contributors
 
