@@ -4,17 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a CLI tool for editing and querying TOML files, written in Go. It provides two main commands:
+This is a CLI tool for editing and querying TOML files, written in Go. It provides three main commands:
 - `get`: Extract values from TOML files using dot notation queries
 - `set`: Update values in TOML files with optional output file specification
+- `merge`: Merge two TOML files with recursive object merging
 
 ## Development Commands
 
 ### Build and Run
 ```bash
 go build -o toml-cli
-./toml-cli get <path> <query>
-./toml-cli set <path> <query> <value> [-o output_file]
+./toml-cli get ./sample/get-set/app.toml server.port
+./toml-cli set ./sample/get-set/app.toml server.port 3000 [-o output_file]
+./toml-cli merge ./sample/merge/base.toml ./sample/merge/override.toml [-o output_file]
 ```
 
 ### Testing
@@ -39,6 +41,7 @@ go fmt ./...              # Format code
    - `root.go`: Main cobra command setup and execution
    - `get.go`: Implementation of get command for querying TOML values
    - `set.go`: Implementation of set command for updating TOML values
+   - `merge.go`: Implementation of merge command for combining TOML files
 
 2. **TOML Processing** (`toml/`):
    - `toml.go`: Core TOML wrapper around pelletier/go-toml library
@@ -60,6 +63,7 @@ go fmt ./...              # Format code
 2. Create `Toml` struct instance from file path
 3. For `get`: Query value using dot notation and print result
 4. For `set`: Update value, optionally specify output file, then write changes
+5. For `merge`: Load two TOML files, merge recursively, then write combined result
 
 ### Value Type Handling
 The `set` command automatically detects and converts input types:
