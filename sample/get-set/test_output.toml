@@ -1,0 +1,20 @@
+
+[app]
+  name = "demo-app"
+  version = "1.0.0"
+
+[database]
+  host = "localhost"
+  name = "demo_db"
+  pool_size = 10
+  port = 5432
+
+[features]
+  debug_mode = false
+  enable_auth = true
+  enable_caching = false
+
+[server]
+  host = "localhost"
+  port = 3000
+  timeout = 30

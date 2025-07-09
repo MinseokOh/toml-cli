@@ -1,0 +1,25 @@
+[app]
+name = "demo-app"
+version = "1.0.0"
+
+[server]
+host = "0.0.0.0"
+port = 3000
+timeout = 30
+
+[database]
+host = "prod-db.example.com"
+port = 5432
+name = "demo_db"
+pool_size = 10
+password = "secret123"
+
+[features]
+enable_auth = true
+enable_caching = true
+debug_mode = false
+maintenance_mode = true
+
+[logging]
+level = "info"
+format = "json"

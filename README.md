@@ -24,19 +24,51 @@ The intent of the toml command is to be useful
 - and in instructions a human can follow for editing a config file, as a command to copy-paste and run.
 
 
+## Sample Files Structure
+
+The project includes well-organized sample files with comprehensive test cases:
+
+```
+sample/
+├── get-set/          # Examples for get and set operations
+│   ├── README.md     # Detailed test cases and usage examples
+│   └── config.toml   # Simple configuration example
+└── merge/            # Examples for merge operations
+    ├── README.md     # Detailed test cases and usage examples
+    ├── base.toml     # Base configuration
+    └── override.toml # Override configuration
+```
+
 ## Usage
 
 ### `Get`
 ```shell
-$ toml-cli get ./sample/example.toml owner.dob
-1979-05-27 07:32:00 -0800 -0800
+$ toml-cli get ./sample/get-set/config.toml server.port
+8080
+
+$ toml-cli get ./sample/get-set/config.toml app.name
+toml-cli-demo
 ```
 
 ### `Set`
 ```shell
-$ toml-cli set ./sample/example.toml owner.name MinseokOh
-# modify owner.name to MinseokOh
+$ toml-cli set ./sample/get-set/config.toml server.port 3000
+# modify server.port to 3000
+
+$ toml-cli set ./sample/get-set/config.toml features.maintenance_mode true -o ./sample/get-set/config_output.toml
+# modify and save to new file
 ```
+
+### `Merge`
+```shell
+$ toml-cli merge ./sample/merge/base.toml ./sample/merge/override.toml -o ./sample/merge/base_output.toml
+# merge base with override configuration
+
+$ toml-cli merge ./sample/merge/base.toml ./sample/merge/override.toml
+# merge and save to base_output.toml
+```
+
+> 💡 **Tip**: Check the `sample/*/README.md` files for comprehensive test cases and examples!
 
 ## Development
 

@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"os"
 	"github.com/spf13/cobra"
+	"os"
 )
 
 var rootCmd = GetRootCommand()
@@ -10,8 +10,8 @@ var rootCmd = GetRootCommand()
 // GetRootCommand returns root command
 func GetRootCommand() *cobra.Command {
 	rootCmd := &cobra.Command{
-		Use:   "toml-cli",
-		Short: "toml-cli",
+		Use:          "toml-cli",
+		Short:        "toml-cli",
 		SilenceUsage: true,
 		Long: `A simple CLI for editing and querying TOML files.
 	`,

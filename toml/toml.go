@@ -9,9 +9,9 @@ import (
 // Toml is a struct
 type Toml struct {
 	path string
-	out string
+	out  string
 
-	raw    []byte
+	raw []byte
 
 	tree *lib.Tree
 }
@@ -56,5 +56,35 @@ func (t *Toml) Set(query string, data interface{}) error {
 	}
 
 	t.tree.Set(query, data)
+	return nil
+}
+
+// Merge merges another TOML file into this one
+func (t *Toml) Merge(other *Toml) error {
+	return t.mergeTree(t.tree, other.tree)
+}
+
+// mergeTree recursively merges source tree into target tree
+func (t *Toml) mergeTree(target, source *lib.Tree) error {
+	for _, key := range source.Keys() {
+		sourceValue := source.Get(key)
+
+		if target.Has(key) {
+			targetValue := target.Get(key)
+
+			// If both are trees (nested objects), merge recursively
+			if sourceTree, ok := sourceValue.(*lib.Tree); ok {
+				if targetTree, ok := targetValue.(*lib.Tree); ok {
+					if err := t.mergeTree(targetTree, sourceTree); err != nil {
+						return err
+					}
+					continue
+				}
+			}
+		}
+
+		// For all other cases (primitives, arrays, or new keys), overwrite
+		target.Set(key, sourceValue)
+	}
 	return nil
 }
