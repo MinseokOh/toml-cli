@@ -27,8 +27,6 @@ toml-cli set ./sample/example.toml title 123456 -o ./sample/example_out.toml
 `,
 		Args: cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			path := args[0]
-			query := args[1]
 			data := parseInput(args[2])
 			if data == nil {
 				return fmt.Errorf("data is nil")
@@ -39,23 +37,18 @@ toml-cli set ./sample/example.toml title 123456 -o ./sample/example_out.toml
 				return err
 			}
 
-
-			toml, err := toml.NewToml(path)
+			toml, err := toml.NewToml(args[0])
 			if err != nil {
 				return err
 			}
 
 			toml.Out(outDir)
 
-			if err := toml.Set(query, data); err != nil {
+			if err := toml.Set(args[1], data); err != nil {
 				return err
 			}
 
-			if err := toml.Write(); err != nil {
-				return err
-			}
-
-			return nil
+			return toml.Write()
 		},
 	}
 

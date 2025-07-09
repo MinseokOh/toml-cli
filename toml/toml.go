@@ -18,17 +18,13 @@ type Toml struct {
 
 // NewToml returns the Toml
 func NewToml(path string) (Toml, error) {
-	toml := Toml{
-		path: path,
-	}
+	toml := Toml{path: path}
 
-	err := toml.readFile()
-	if err != nil {
+	if err := toml.readFile(); err != nil {
 		return toml, err
 	}
 
-	err = toml.load()
-	if err != nil {
+	if err := toml.load(); err != nil {
 		return toml, err
 	}
 
@@ -37,14 +33,8 @@ func NewToml(path string) (Toml, error) {
 
 func (t *Toml) load() error {
 	var err error
-
 	t.tree, err = lib.LoadBytes(t.raw)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
 
 // Dest set output given path
