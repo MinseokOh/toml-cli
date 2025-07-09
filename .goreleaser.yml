@@ -71,16 +71,3 @@ release:
   footer: |
     **Full Changelog**: https://github.com/MinseokOh/toml-cli/compare/{{.PreviousTag}}...{{.Tag}}
 
-brews:
-  - name: toml-cli
-    homepage: https://github.com/MinseokOh/toml-cli
-    description: "A simple CLI for editing and querying TOML files"
-    license: MIT
-    repository:
-      owner: MinseokOh
-      name: homebrew-tap
-    commit_author:
-      name: MinseokOh
-      email: minseok.oh.dev@gmail.com
-    install: |
-      bin.install "toml-cli"
