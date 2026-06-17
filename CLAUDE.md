@@ -44,17 +44,16 @@ go fmt ./...              # Format code
    - `merge.go`: Implementation of merge command for combining TOML files
 
 2. **TOML Processing** (`toml/`):
-   - `toml.go`: Core TOML wrapper around pelletier/go-toml library
+   - `toml.go`: Core TOML wrapper. Documents are unmarshalled into a
+     `map[string]any` tree; `Get`/`Has`/`Set`/`Merge` operate on it via
+     dot-notation key traversal.
    - `tomlw.go`: File I/O operations for reading/writing TOML files
-   - `keysparsing.go`: Key parsing utilities for dot notation queries
-   - `lexer.go`: TOML lexical analysis
-   - `position.go` & `token.go`: Supporting lexer infrastructure
 
 3. **Entry Point**:
    - `main.go`: Simple entry point that calls cmd.Execute()
 
 ### Key Dependencies
-- `github.com/pelletier/go-toml`: Core TOML parsing library
+- `github.com/pelletier/go-toml/v2`: Core TOML parsing library (marshal/unmarshal)
 - `github.com/spf13/cobra`: CLI framework
 - `github.com/stretchr/testify`: Testing framework
 
@@ -66,20 +65,25 @@ go fmt ./...              # Format code
 5. For `merge`: Load two TOML files, merge recursively, then write combined result
 
 ### Value Type Handling
-The `set` command automatically detects and converts input types:
-- Boolean values (true/false)
-- Integer values (int64)
-- Float values (float64)
-- TOML date/time formats (LocalDate, LocalDateTime, LocalTime)
-- Strings (fallback)
+The `set` command infers the type of the input value by delegating to go-toml:
+`parseInput` parses the argument as the value of a single TOML key
+(`v = <input>`) and returns whatever go-toml produces. This covers the full
+TOML type system in one step:
+- Booleans (`true`/`false`)
+- Integers including hex/octal/binary literals and underscores (`0xFF`, `1_000`)
+- Floats (float64)
+- Date/time values (LocalDate, LocalDateTime, LocalTime)
+- Arrays and inline tables
+- Any bare or unparseable token falls back to a plain string
+
+Note: output formatting follows go-toml v2 conventions — keys are emitted in
+alphabetical order and strings use single quotes; comments are not preserved on
+round-trip.
 
 ## Testing Strategy
 
-The codebase includes comprehensive tests in the `toml/` package covering:
-- Key parsing with various formats (bare keys, quoted keys, dotted keys)
-- TOML lexing and tokenization
-- Core TOML operations (get/set)
-- Date/time parsing
-- Array and inline table handling
-- Unicode support
-- Error cases and edge conditions
+Tests live in `toml/toml_test.go` and cover the core wrapper operations:
+- `TestNewToml`: loading a file (and the error path for a missing file)
+- `TestGet`: dot-notation queries with type assertions (e.g. `int64` ports)
+- `TestSet`: updating a value and writing it back out
+- `TestMerge`: recursive merge with override-wins and base-preserved semantics

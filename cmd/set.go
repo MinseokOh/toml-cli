@@ -2,10 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/MinseokOh/toml-cli/toml"
-	lib "github.com/pelletier/go-toml"
+	lib "github.com/pelletier/go-toml/v2"
 	"github.com/spf13/cobra"
 )
 
@@ -56,29 +55,14 @@ toml-cli set ./sample/example.toml title 123456 -o ./sample/example_out.toml
 	return cmd
 }
 
-func parseInput(str string) interface{} {
-	if val, err := strconv.ParseBool(str); err == nil {
-		return val
-	}
-
-	if val, err := strconv.ParseInt(str, 0, 64); err == nil {
-		return val
-	}
-
-	if val, err := strconv.ParseFloat(str, 64); err == nil {
-		return val
-	}
-
-	if val, err := lib.ParseLocalDate(str); err == nil {
-		return val
-	}
-
-	if val, err := lib.ParseLocalDateTime(str); err == nil {
-		return val
-	}
-
-	if val, err := lib.ParseLocalTime(str); err == nil {
-		return val
+// parseInput infers the TOML type of str by letting go-toml parse it as the
+// value of a single key. This covers integers (incl. hex/octal/binary and
+// underscores), floats, booleans, dates/times, arrays and inline tables.
+// A bare or otherwise unparseable token is treated as a plain string.
+func parseInput(str string) any {
+	var holder map[string]any
+	if err := lib.Unmarshal([]byte("v = "+str), &holder); err == nil {
+		return holder["v"]
 	}
 
 	return str
