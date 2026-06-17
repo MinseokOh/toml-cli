@@ -2,6 +2,8 @@ package toml
 
 import (
 	"os"
+
+	lib "github.com/pelletier/go-toml/v2"
 )
 
 func (t *Toml) readFile() error {
@@ -18,10 +20,10 @@ func (t *Toml) Write() error {
 		path = t.path
 	}
 
-	toml, err := t.tree.ToTomlString()
+	toml, err := lib.Marshal(t.tree)
 	if err != nil {
 		return err
 	}
 
-	return os.WriteFile(path, []byte(toml), 0644)
+	return os.WriteFile(path, toml, 0644)
 }
